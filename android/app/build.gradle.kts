@@ -8,11 +8,13 @@ plugins {
 android {
     namespace = "com.example.habitsync"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        // Change this line - use 'isCoreLibraryDesugaringEnabled' (with 'is' prefix)
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -41,4 +43,9 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Use parentheses for Kotlin DSL syntax
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
