@@ -27,6 +27,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBody: true,
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: _screens[_selectedIndex],
@@ -44,13 +46,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: FloatingBottomNav(
-        selectedIndex: _selectedIndex,
-        onItemSelected: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        child: FloatingBottomNav(
+          selectedIndex: _selectedIndex,
+          onItemSelected: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
@@ -82,16 +87,10 @@ class _HomeContent extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hello Raunak',
+                      'Hi, Aryan',
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      'May I help you?',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppTheme.grey,
-                      ),
-                    ),
                     const SizedBox(height: 30),
                     Row(
                       children: [
