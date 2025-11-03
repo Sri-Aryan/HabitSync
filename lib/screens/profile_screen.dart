@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../core/providers/auth_provider.dart';
 import '../core/providers/habit_provider.dart';
 import '../core/theme/app_theme.dart';
 import '../core/utils/notification_service.dart';
@@ -11,8 +12,8 @@ class ProfileScreen extends ConsumerWidget {
     try {
       await NotificationService.showInstantNotification(
         id: 999,
-        title: '🎉 Test Notification',
-        body: 'This is a test notification from Habit Tracker!',
+        title: '📖 Reading ',
+        body: 'Time to complete your habit!',
         quote: 'Success is the sum of small efforts repeated day in and day out.',
       );
 
@@ -86,16 +87,10 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Raunak',
+                      'Aryan',
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Building better habits',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppTheme.grey,
-                      ),
-                    ),
+
                     const SizedBox(height: 40),
                     // Test Notification Button
                     _buildTestNotificationButton(context),
@@ -124,6 +119,44 @@ class ProfileScreen extends ConsumerWidget {
                       subtitle: 'App version 1.0.0',
                       onTap: () {},
                     ),
+                    // Add this to the profile screen's settings items:
+
+                    _buildSettingItem(
+                      icon: Icons.logout,
+                      title: 'Logout',
+                      subtitle: 'Sign out of your account',
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            title: const Text('Logout'),
+                            content: const Text('Are you sure you want to logout?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await ref.read(authServiceProvider).signOut();
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: const Text(
+                                  'Logout',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+
                     const SizedBox(height: 20),
                     if (habits.isNotEmpty)
                       TextButton.icon(
